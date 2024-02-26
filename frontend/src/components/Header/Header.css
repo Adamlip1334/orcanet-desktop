@@ -1,0 +1,34 @@
+  
+  .header__notifications-marker {
+    width: 8px;
+    height: 8px;
+    border-radius: 100px;
+    background: #ff4757;
+    position: absolute;
+    right: 138px;
+    top: 32px;
+  }
+  
+  .header__left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header__button {
+    margin: 0 16px;
+  }
+  
+  .header__search {
+    width: 269px;
+  }
+  
+  .header__right {
+    height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header__icon {
+    margin-left: 24px;
+  }
+  

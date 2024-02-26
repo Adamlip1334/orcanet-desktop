@@ -1,0 +1,96 @@
+.notifications {
+  position: absolute;
+  right: 80px;
+  top: 56px;
+  border-radius: 4px;
+  background-color: #333; /* $dark-semi-light */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* $shadow-1 */
+  backdrop-filter: blur(10px); /* $blur */
+  border-radius: 14px;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out, width 0.2s ease-in-out, height 0.2s ease-in-out;
+  pointer-events: none;
+  transform: translate3d(0, -8px, 0);
+  opacity: 0;
+  z-index: 3;
+  cursor: default;
+}
+
+.notifications__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px; /* $padding-xl */
+}
+
+.notifications__header-title {
+  font-weight: 600; /* $fw-semi-bold */
+  font-size: 18px; /* $fz-lg */
+  line-height: 24px;
+  color: #fff; /* $white */
+}
+
+.notifications__header-clear {
+  font-size: 14px; /* $fz-sm */
+  line-height: 16px;
+  color: #fff; /* $white */
+  transition: color 0.2s ease-in-out; /* $transition-1 */
+  cursor: pointer;
+}
+
+.notifications__header-clear:hover {
+  color: #007bff; /* $primary */
+}
+
+.notifications__wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 212px;
+  padding: 16px; /* $padding-llg */
+  width: 320px;
+}
+
+.notifications_visible {
+  opacity: 1;
+  transform: translate3d(0, 8px, 0);
+  pointer-events: auto;
+}
+
+.notifications__item {
+}
+
+.notifications__item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px; /* $padding-xxs */
+  gap: 16px; /* $padding-llg */
+}
+
+.notifications__item-title {
+  font-size: 16px; /* $fz-md */
+  line-height: 16px;
+  color: #fff; /* $white */
+}
+
+.notifications__item-time {
+  font-size: 11px;
+  line-height: 16px;
+  color: #999; /* $grey */
+  min-width: 80px;
+  text-align: right;
+}
+
+.notifications__item-text {
+  font-size: 14px; /* $fz-sm */
+  line-height: 16px;
+  color: #999; /* $grey */
+}
+
+.notifications__item:not(:first-of-type) {
+  padding-top: 12px; /* $padding-md */
+}
+
+.notifications__item:not(:last-child) {
+  padding-bottom: 12px; /* $padding-md */
+  border-bottom: 1px solid transparent; /* $border-transparent */
+}

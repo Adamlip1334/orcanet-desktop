@@ -1,0 +1,107 @@
+.button {
+  border-radius: 8px; /* Example for $br-md */
+  text-align: center;
+  transition: all 0.3s ease; /* Example for $transition-1 */
+  cursor: pointer !important;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  appearance: none;
+  box-sizing: border-box;
+  font-weight: 600; /* Example for $fw-semi-bold */
+  font-size: 14px; /* Example for $fz-sm */
+  line-height: 16px;
+  letter-spacing: 0.1px;
+  font-feature-settings: "salt" on;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.button__icon {
+  margin-right: 4px; /* Example for $padding-xs */
+}
+
+.button:hover svg path {
+  stroke: #FFFFFF; /* Example for $white */
+}
+
+.button:disabled {
+  color: rgba(255, 255, 255, 0.2) !important;
+  cursor: not-allowed !important;
+  background: initial !important;
+  border: 1px solid transparent !important;
+}
+
+.button_size_lg {
+  padding: 16px 24px; /* Examples for $padding-md and $padding-xl */
+}
+
+.button_size_md {
+  padding: 8px 20px; /* Examples for $padding-sm and $padding-llg */
+  height: 40px;
+}
+
+.button_theme_primary {
+  background: linear-gradient(45deg, #0062cc, #a2a2ff); /* Example for $primary-gradient */
+  color: #FFFFFF; /* Example for $white */
+}
+
+.button_theme_text {
+  background: transparent;
+  color: #FFFFFF; /* Example for $white */
+  padding: 0;
+}
+
+.button_theme_text:hover {
+  color: #007bff; /* Example for $primary */
+}
+
+.button_theme_default {
+  background: #2a2a2c;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1); /* Example for $shadow-2 */
+  backdrop-filter: blur(4px); /* Example for $blur-2 */
+  color: #FFFFFF; /* Example for $white */
+  border: 1px solid transparent;
+}
+
+.button_theme_default:hover {
+  background: #007bff; /* Example for $primary */
+  border-color: #0056b3; /* Example for $border-primary */
+}
+
+.button_theme_icon {
+  background: #212123;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1); /* Example for $shadow-2 */
+  backdrop-filter: blur(4px); /* Example for $blur-2 */
+  color: #808080; /* Example for $grey */
+  border: 1px solid transparent;
+}
+
+.button_theme_icon_active {
+  background: #007bff; /* Example for $primary */
+  border-color: #0056b3; /* Example for $border-primary */
+  color: #FFFFFF; /* Example for $white */
+}
+
+.button_theme_icon_active svg path {
+  stroke: #FFFFFF; /* Example for $white */
+}
+
+.button_theme_icon:hover {
+  color: #FFFFFF; /* Example for $white */
+  background: #007bff; /* Example for $primary */
+  border-color: #0056b3; /* Example for $border-primary */
+}
+
+.button_theme_transparent {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF; /* Example for $white */
+}
+
+.button_theme_transparent:hover {
+  color: #FFFFFF; /* Example for $white */
+  background: #007bff; /* Example for $primary */
+  border-color: #0056b3; /* Example for $border-primary */
+}
