@@ -1,0 +1,38 @@
+.file-hash {
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.file-hash_active .file-hash__icon path,
+.file-hash_active .file-hash__icon circle {
+  stroke: #007bff !important; /* Replace #007bff with your project's $primary color */
+}
+
+.file-hash:hover .file-hash__icon path,
+.file-hash:hover .file-hash__icon circle {
+  stroke: #ffffff; /* Replace #ffffff with your project's $white color */
+}
+
+.file-hash__icon {
+  margin-right: 8px; /* Replace 8px with your project's $padding-xs value */
+  height: 24px;
+  width: 24px;
+  position: relative;
+  transition: all 0.3s ease; /* Replace with your project's $transition-1 value */
+}
+
+.file-hash__text {
+  flex: 1;
+}
+
+@keyframes floatup {
+  20% {
+    opacity: 0.999;
+  }
+  100% {
+    transform: translate3d(-50%, -17px, 0);
+  }
+}

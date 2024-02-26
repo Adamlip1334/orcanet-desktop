@@ -1,6 +1,6 @@
 import React from 'react';
 import './dashboard.css'; // Ensure you have the CSS file for styling
-
+import NetworkStats from '../NetworkStats/NetworkStats';
 const fileData = [
   {
     id: 1,
@@ -66,11 +66,11 @@ const FileTransfers = () => {
           </div>
         ))}
       </div>
-      
-      <div className="file-transfers-footer">
+      <NetworkStats />
+      {/* <div className="file-transfers-footer">
         <span>Total clients connected: 2</span>
         <span>Avg Speed: 1.2 MB/s | 310 Bytes/s</span>
-      </div>
+      </div> */}
     </div>
   );
 };

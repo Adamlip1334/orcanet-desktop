@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux'; // Assuming Redux for global state
-import FileName from './FileName'; // Adjust these imports according to your project structure
-import FileSize from './FileSize';
-import FileHash from './FileHash';
-import FileDownload from './FileDownload';
-import Icon from '../assets/images/Icon';
+import FileName from '../../File/FileName'; // Adjust these imports according to your project structure
+import FileSize from '../../File/FileSize';
+import FileHash from '../../File/FileHash';
+import FileDownload from '../../File/FileDownload';
+import Icon from '../../../assets/images/Icon';
 
 // Icons
-import DownloadIcon from '../assets/icons/DownloadIcon';
-import UploadIcon from '../assets/icons/UploadIcon';
-import CheckIcon from '../assets/icons/CheckIcon';
+import DownloadIcon from '../../../assets/icons/DownloadIcon.svg';
+import UploadIcon from '../../../assets/icons/UploadIcon.svg';
+import CheckIcon from '../../../assets/icons/CheckIcon.svg';
 
 const DiscoverTable = () => {
   // Assuming use of Redux for state management
