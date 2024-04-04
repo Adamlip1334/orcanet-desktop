@@ -1,4 +1,4 @@
-module changeme
+module orcanet
 
 go 1.21
 

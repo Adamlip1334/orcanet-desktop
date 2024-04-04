@@ -209,12 +209,12 @@ export const getColumns = (
                   Publish to OrcaNet
                 </button>
                 {isModalOpen && (
-                  <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
-                    <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-lg w-full mx-4">
+                  <div className="fixed inset-0 bg-gray-700 bg-opacity-75 flex justify-center items-center z-50">
+                    <div className="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full mx-4">
                       <div className="flex justify-center mb-6">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="w-12 h-12"
+                          className="w-12 h-12 text-white"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -227,17 +227,17 @@ export const getColumns = (
                           />
                         </svg>
                       </div>
-                      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+                      <h2 className="text-2xl font-bold text-white mb-6 text-center">
                         Publish to OrcaNet
                       </h2>
                       <div className="mb-6">
-                        <p className="text-lg font-semibold text-gray-800">
+                        <p className="text-lg font-semibold text-white">
                           CID:
                         </p>
-                        <p className="text-gray-800">{row.original.hash}</p>
+                        <p className="text-white">{row.original.hash}</p>
                       </div>
                       <div className="mb-6">
-                        <p className="text-lg font-semibold text-gray-800">
+                        <p className="text-lg font-semibold text-white">
                           Select key for publishing:
                         </p>
                         <div className="mt-2 text-center">
@@ -250,15 +250,15 @@ export const getColumns = (
                           />
                           <label
                             htmlFor="selfKey"
-                            className="ml-2 text-gray-800"
+                            className="ml-2 text-white"
                           >
                             self
                           </label>
                         </div>
                       </div>
-                      <div className="flex items-center justify-center space-x-4 bg-gray-300 p-4 rounded-b-2xl">
+                      <div className="flex items-center justify-center space-x-4 bg-gray-600 p-4 rounded-b-2xl">
                         <button
-                          className="flex-1 justify-center py-3 px-6 border border-transparent shadow text-lg font-medium rounded-md text-gray-800 bg-red-400 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300 transition duration-150 ease-in-out"
+                          className="flex-1 justify-center py-3 px-6 border border-transparent shadow text-lg font-medium rounded-md text-gray-800 bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out"
                           onClick={() => {
                             setIsModalOpen(false);
                             toggleDropdown(row.original.id);
@@ -267,7 +267,7 @@ export const getColumns = (
                           Cancel
                         </button>
                         <button
-                          className="flex-1 justify-center py-3 px-6 border border-transparent shadow text-lg font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300 transition duration-150 ease-in-out"
+                          className="flex-1 justify-center py-3 px-6 border border-transparent shadow text-lg font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                           onClick={() => {
                             setIsModalOpen(false);
                             toggleDropdown(row.original.id);

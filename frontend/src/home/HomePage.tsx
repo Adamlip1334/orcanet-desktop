@@ -1,8 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { DataTable } from "./DataTable";
 import { getColumns } from "./columns";
 import "./HomePage.css";
 import { generateFileHash, formatFileSize, sizeToBytes } from "./sizeUtils";
+
+import {
+  GetActivities,
+  UploadFile,
+  RemoveActivity,
+  UpdateActivityName,
+} from "../../wailsjs/go/backend/Backend.js";
 
 const HomePage = () => {
   interface Activity {
@@ -16,80 +23,22 @@ const HomePage = () => {
     isEditing?: boolean;
     isSelected?: boolean;
   }
-  const [activities, setActivities] = useState<Activity[]>([
-    {
-      id: 1,
-      name: "File1.txt",
-      size: "150KiB",
-      hash: "a1b2c3d4e5a1b2c3d4e5",
-      status: "Uploaded",
-      showDropdown: false,
-      peers: 3,
-    },
-    {
-      id: 2,
-      name: "Photo.png",
-      size: "45KiB",
-      hash: "f6g7h8i9j0f6g7h8i9j0",
-      status: "Uploaded",
-      showDropdown: false,
-      peers: 1,
-    },
-    {
-      id: 3,
-      name: "Document.pdf",
-      size: "120KiB",
-      hash: "k1l2m3n4o5k1l2m3n4o5",
-      status: "Deleted",
-      showDropdown: false,
-    },
-    {
-      id: 4,
-      name: "Presentation.pptx",
-      size: "500KiB",
-      hash: "p6q7r8s9t0p6q7r8s9t0",
-      status: "Uploaded",
-      showDropdown: false,
-      peers: 29,
-    },
-    {
-      id: 5,
-      name: "Spreadsheet.xlsx",
-      size: "85KiB",
-      hash: "u1v2w3x4y5u1v2w3x4y5",
-      status: "Updated",
-      showDropdown: false,
-      peers: 12,
-    },
-    {
-      id: 6,
-      name: "Archive.zip",
-      size: "2.5MiB",
-      hash: "z6a7b8c9d0z6a7b8c9d0",
-      status: "Uploaded",
-      showDropdown: false,
-      peers: 19,
-    },
-    {
-      id: 7,
-      name: "Ebook.epub",
-      size: "1MiB",
-      hash: "e1f2g3h4i5e1f2g3h4i5",
-      status: "Uploaded",
-      showDropdown: false,
-      peers: 4,
-    },
-    {
-      id: 8,
-      name: "Code.js",
-      size: "25KiB",
-      hash: "j6k7l8m9n0j6k7l8m9n0",
-      status: "Updated",
-      showDropdown: false,
-      peers: 6,
-    },
-  ]);
-  
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+
+  const fetchActivities = async () => {
+    try {
+      const result = await GetActivities();
+      setActivities(result);
+    } catch (error) {
+      console.error("Failed to fetch activities:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchActivities();
+  }, []);
+
   const isAnyActivitySelected = activities.some(
     (activity) => activity.isSelected
   );
@@ -116,12 +65,13 @@ const HomePage = () => {
     }
   };
 
-  const updateActivityName = (id: number, newName: string) => {
-    setActivities((currentActivities) =>
-      currentActivities.map((activity) =>
-        activity.id === id ? { ...activity, name: newName } : activity
-      )
-    );
+  const updateActivityName = async (id: number, newName: string) => {
+    try {
+      await UpdateActivityName(id, newName);
+      await fetchActivities(); // Refresh the activities list to reflect the updated name
+    } catch (error) {
+      console.error("Failed to update activity name:", error);
+    }
   };
 
   const toggleEdit = (id: number) => {
@@ -134,12 +84,15 @@ const HomePage = () => {
     );
   };
 
-  const removeAllSelected = () => {
-    setActivities((currentActivities) =>
-      currentActivities.filter((activity) => !activity.isSelected)
-    );
+  const removeAllSelected = async () => {
+    const selectedActivities = activities
+      .filter((activity) => activity.isSelected)
+      .map((activity) => activity.id);
+    for (const id of selectedActivities) {
+      await RemoveActivity(id);
+    }
+    await fetchActivities();
   };
-
   const updateSelection = (id: number, isSelected: boolean) => {
     setActivities((currentActivities) =>
       currentActivities.map((activity) =>
@@ -158,23 +111,35 @@ const HomePage = () => {
   };
 
   const addFileToActivities = async (file: File) => {
-    const hash = await generateFileHash(file);
-    const newActivity: Activity = {
-      id: activities.length + 1,
-      name: file.name,
-      size: formatFileSize(file.size),
-      hash: hash,
-      status: "Uploaded",
-      showDropdown: false,
-    };
-
-    setActivities((currentActivities) => [...currentActivities, newActivity]);
+    try {
+      // Read the file and convert it to a Base64 string
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const base64String = reader.result?.toString().split(",")[1]; // Remove the data URL part
+        if (base64String) {
+          const fileSizeInBytes = file.size;
+          const fileSizeFormatted = formatFileSize(fileSizeInBytes); // Format the file size
+          await UploadFile(base64String, file.name, fileSizeFormatted);
+          await fetchActivities();
+          setUpdateTrigger((prev) => !prev);
+        }
+      };
+      reader.onerror = (error) => {
+        console.error("Error converting file to Base64:", error);
+      };
+    } catch (error) {
+      console.error("Failed to upload file:", error);
+    }
   };
 
-  const removeActivity = (id: number) => {
-    setActivities((currentActivities) =>
-      currentActivities.filter((activity) => activity.id !== id)
-    );
+  const removeActivity = async (id: number) => {
+    try {
+      await RemoveActivity(id);
+      await fetchActivities();
+    } catch (error) {
+      console.error("Failed to remove activity:", error);
+    }
   };
 
   const handleDrop = async (event: React.DragEvent) => {
@@ -191,24 +156,21 @@ const HomePage = () => {
       }
     }
 
-    const newActivitiesPromises = files.map(async (file, index) => {
-      const hash = await generateFileHash(file);
-      return {
-        id: activities.length + index + 1,
-        name: file.name,
-        size: formatFileSize(file.size),
-        hash: hash,
-        status: "Uploaded",
-        showDropdown: false,
+    for (const file of files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const base64String = reader.result?.toString().split(",")[1];
+        if (base64String) {
+          const fileSizeInBytes = file.size;
+          const fileSizeFormatted = formatFileSize(fileSizeInBytes);
+          await UploadFile(base64String, file.name, fileSizeFormatted);
+
+          // Fetch the updated activities after each file upload
+          await fetchActivities();
+        }
       };
-    });
-
-    const newActivities = await Promise.all(newActivitiesPromises);
-
-    setActivities((currentActivities) => [
-      ...currentActivities,
-      ...newActivities,
-    ]);
+    }
   };
 
   const getFilesRecursively = async (entry: any): Promise<File[]> => {
@@ -258,7 +220,9 @@ const HomePage = () => {
       className={`relative w-full`}
     >
       <div className="dashboard-overview bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-200">Dashboard Overview</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-200">
+          Dashboard Overview
+        </h2>
         <div className="grid grid-cols-3 gap-6">
           <div className="file-hosted bg-gray-700 p-4 rounded-lg">
             <span className="block text-sm font-medium text-gray-400">
@@ -280,7 +244,11 @@ const HomePage = () => {
             <span className="block text-sm font-medium text-gray-400">
               Network Status
             </span>
-            <span className={`block text-2xl font-bold ${networkStatus === "Healthy" ? "text-green-400" : "text-red-400"}`}>
+            <span
+              className={`block text-2xl font-bold ${
+                networkStatus === "Healthy" ? "text-green-400" : "text-red-400"
+              }`}
+            >
               {networkStatus}
             </span>
           </div>
