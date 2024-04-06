@@ -7,14 +7,13 @@ import (
 	"encoding/hex"
 	"io"
 	"os"
-	"sync/atomic"
 )
 
 type Backend struct {
 	ctx context.Context
 }
 
-var fileIDCounter int64
+var counter = 0
 
 func generateHash(file io.Reader) string {
 	hash := sha256.New()
@@ -49,18 +48,16 @@ func (b *Backend) UploadFile(base64File string, originalFileName string, fileSiz
 
 	hash := generateHash(tempFile)
 
-	uniqueID := atomic.AddInt64(&fileIDCounter, 1)
-
 	created_activity := &Activity{
 		Name:   originalFileName,
 		Size:   fileSize,
 		Hash:   hash,
 		Status: "Uploaded",
 		Peers:  0,
-		ID:     uniqueID,
+		ID:     counter,
 	}
-
 	b.SetActivity(*created_activity)
+	counter += 1
 
 	return nil
 }

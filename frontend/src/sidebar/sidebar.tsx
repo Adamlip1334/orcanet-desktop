@@ -14,7 +14,7 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
-import orcanetLogo from "./../assets/images/OrcaNet-Dark.png";
+import orcanetLogo from "./../assets/images/orcanetPNG.png";
 import React from "react";
 import SidebarItem from "./Sidebaritem";
 
@@ -35,7 +35,7 @@ const Sidebar = () => {
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg  hover:bg-accent bg-black"
+            className="p-1.5 rounded-lg hover:bg-accent bg-white border border-gray-300"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>

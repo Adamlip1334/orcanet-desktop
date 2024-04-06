@@ -1,7 +1,7 @@
 package backend
 
 type Activity struct {
-	ID           int64  `json:"id"`
+	ID           int    `json:"id"`
 	Name         string `json:"name"`
 	Size         string `json:"size"`
 	Hash         string `json:"hash"`
@@ -21,7 +21,7 @@ func (b *Backend) SetActivity(activity Activity) error {
 	return nil
 }
 
-func (b *Backend) RemoveActivity(id int64) error {
+func (b *Backend) RemoveActivity(id int) error {
 
 	for i, activity := range activities {
 		if activity.ID == id {
@@ -32,7 +32,7 @@ func (b *Backend) RemoveActivity(id int64) error {
 	return nil
 }
 
-func (b *Backend) UpdateActivityName(id int64, name string) error {
+func (b *Backend) UpdateActivityName(id int, name string) error {
 	for i, activity := range activities {
 		if activity.ID == id {
 			activities[i].Name = name

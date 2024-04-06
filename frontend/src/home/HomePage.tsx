@@ -23,6 +23,14 @@ const HomePage = () => {
     isEditing?: boolean;
     isSelected?: boolean;
   }
+
+  enum Status {
+    UPLOADED = "Uploaded",
+    UPLOADING = "Uploading",
+    ERROR = "Error",
+    PUBLISHED = "Published",
+  }
+  
   const [activities, setActivities] = useState<Activity[]>([]);
   const [updateTrigger, setUpdateTrigger] = useState(false);
 
@@ -143,7 +151,7 @@ const HomePage = () => {
   };
 
   const handleDrop = async (event: React.DragEvent) => {
-    document.getElementById("home-page")!.style.backgroundColor = "";
+    document.getElementById("home-page")!.style.backgroundColor = "white";
     event.preventDefault();
     const items = event.dataTransfer.items;
     const files: File[] = [];
@@ -202,7 +210,7 @@ const HomePage = () => {
   };
 
   const handleDragLeave = (event: React.DragEvent) => {
-    document.getElementById("home-page")!.style.backgroundColor = "";
+    document.getElementById("home-page")!.style.backgroundColor = "white";
   };
 
   const totalSizeBytes = activities.reduce((total, activity) => {
@@ -219,34 +227,34 @@ const HomePage = () => {
       onDragLeave={handleDragLeave}
       className={`relative w-full`}
     >
-      <div className="dashboard-overview bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-200">
+      <div className="dashboard-overview bg-white p-6 rounded-xl shadow-lg mb-6">
+        <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Dashboard Overview
         </h2>
         <div className="grid grid-cols-3 gap-6">
-          <div className="file-hosted bg-gray-700 p-4 rounded-lg">
-            <span className="block text-sm font-medium text-gray-400">
+          <div className="file-hosted bg-white p-4 rounded-lg">
+            <span className="block text-sm font-medium text-gray-600">
               Files Hosted
             </span>
-            <span className="block text-2xl font-bold text-white">
+            <span className="block text-2xl font-bold text-gray-800">
               {totalFiles}
             </span>
           </div>
-          <div className="storage-used bg-gray-700 p-4 rounded-lg">
-            <span className="block text-sm font-medium text-gray-400">
+          <div className="storage-used bg-white p-4 rounded-lg">
+            <span className="block text-sm font-medium text-gray-600">
               Total Storage Used
             </span>
-            <span className="block text-2xl font-bold text-white">
+            <span className="block text-2xl font-bold text-gray-800">
               {totalSizeFormatted}
             </span>
           </div>
-          <div className="network-status bg-gray-700 p-4 rounded-lg">
-            <span className="block text-sm font-medium text-gray-400">
+          <div className="network-status bg-white p-4 rounded-lg">
+            <span className="block text-sm font-medium text-gray-600">
               Network Status
             </span>
             <span
               className={`block text-2xl font-bold ${
-                networkStatus === "Healthy" ? "text-green-400" : "text-red-400"
+                networkStatus === "Healthy" ? "text-green-600" : "text-red-600"
               }`}
             >
               {networkStatus}
@@ -272,7 +280,7 @@ const HomePage = () => {
       />
       {isAnyActivitySelected && (
         <div
-          className={`ml-80 fixed bottom-0 inset-x-0 mx-auto p-4 bg-white shadow-lg flex items-center justify-between transition-transform duration-300 ease-in-out ${
+          className={`ml-80 fixed bottom-0 inset-x-0 mx-auto p-4 bg-gray-100 shadow-lg flex items-center justify-between transition-transform duration-300 ease-in-out ${
             isAnyActivitySelected ? "translate-y-0" : "translate-y-full"
           }`}
         >
@@ -285,7 +293,7 @@ const HomePage = () => {
                 {activities.filter((activity) => activity.isSelected).length}{" "}
                 Item selected
               </span>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-800">
                 Total size:{" "}
                 {formatFileSize(
                   activities
@@ -314,7 +322,7 @@ const HomePage = () => {
           </div>
           <button
             onClick={() => updateAllSelections(false)}
-            className="text-gray-600 hover:text-gray-800 transition ease-in-out focus:outline-none"
+            className="text-gray-800 hover:text-gray-900 transition ease-in-out focus:outline-none"
           >
             <svg
               className="w-6 h-6"
