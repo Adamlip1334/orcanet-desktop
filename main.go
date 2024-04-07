@@ -2,52 +2,38 @@ package main
 
 import (
 	"embed"
-	"log"
+
+	"orcanet/backend"
 
 	"github.com/wailsapp/wails/v2"
-	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
-	"github.com/wailsapp/wails/v2/pkg/options/windows"
+	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 )
 
-//go:embed frontend/dist
+//go:embed all:frontend/dist
 var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
 	app := NewApp()
+	myBackend := &backend.Backend{}
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "Wails-Peernode-GUI",
+		Title:  "OrcaNetPeerNode",
 		Width:  1024,
 		Height: 768,
-		// MinWidth:          720,
-		// MinHeight:         570,
-		// MaxWidth:          1280,
-		// MaxHeight:         740,
-		DisableResize:     false,
-		Fullscreen:        false,
-		Frameless:         false,
-		StartHidden:       false,
-		HideWindowOnClose: false,
-		Assets:            assets,
-		LogLevel:          logger.DEBUG,
-		OnStartup:         app.startup,
-		OnDomReady:        app.domReady,
-		OnShutdown:        app.shutdown,
-		Bind: []interface{}{
-			app,
+		AssetServer: &assetserver.Options{
+			Assets: assets,
 		},
-		// Windows platform specific options
-		Windows: &windows.Options{
-			WebviewIsTransparent: false,
-			WindowIsTranslucent:  false,
-			DisableWindowIcon:    false,
+		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		OnStartup:        app.startup,
+		Bind: []interface{}{
+			myBackend,
 		},
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		println("Error:", err.Error())
 	}
 }

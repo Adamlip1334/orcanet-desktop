@@ -1,4 +1,4 @@
-module changeme
+module orcanet
 
 go 1.21
 
@@ -36,4 +36,4 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 )
 
-// replace github.com/wailsapp/wails/v2 v2.8.0 => /Users/adam/go/pkg/mod
+// replace github.com/wailsapp/wails/v2 v2.8.0 => C:\Users\Kendrick\go\pkg\mod
