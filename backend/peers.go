@@ -1,6 +1,7 @@
 package backend
 
 import (
+	"log"
 	"sync"
 )
 
@@ -21,7 +22,7 @@ type PeerStorage struct {
 }
 
 // NewPeerStorage initializes a new instance of PeerStorage.
-func (b *Backend) NewPeerStorage() *PeerStorage {
+func NewPeerStorage() *PeerStorage {
 	return &PeerStorage{
 		peers: make(map[string]PeerInfo),
 	}
@@ -29,10 +30,21 @@ func (b *Backend) NewPeerStorage() *PeerStorage {
 
 // AddPeer adds a new peer to the storage.
 func (ps *PeerStorage) AddPeer(peer PeerInfo) {
+	if ps == nil {
+
+		log.Println("PeerStorage is nil")
+		return
+
+	}
+	if peer.PeerID == "" {
+		// Handle invalid peerID
+		return
+	}
 	ps.mutex.Lock()
 	defer ps.mutex.Unlock()
 
 	ps.peers[peer.PeerID] = peer
+	log.Println("Succesfully added a peer")
 }
 
 // GetPeer retrieves a peer's information by its ID.

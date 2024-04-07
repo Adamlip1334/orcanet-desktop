@@ -20,7 +20,8 @@ import MarkerPoints from './MarkerPoints';
 
 import AddConnection from "./addConnection";
 
-
+import {GetAllPeers,AddPeer} from "../../wailsjs/go/backend/PeerStorage";
+import { FormEvent } from "react";
 type MapData = {
   rank: number;
   country_code: number;
@@ -60,6 +61,15 @@ const PeersPage = () => {
   const [maxValue, setMaxValue] = useState(0);
 
   const [peers, setPeers] = useState<Peer[]>([]);
+  const [newPeer, setNewPeer] = useState<Peer>({
+    location: '',
+    latency: '',
+    peerID: '',
+    connection: '',
+    openStreams: '',
+    flagUrl: '',
+  });
+  
 
   useEffect(() => {
   try{
@@ -67,22 +77,35 @@ const PeersPage = () => {
       setMaxValue(sortedCities[0].population);
       setData(sortedCities);
 
-      // const fetchPeers = async () => {
-      //   try {
-      //     // This is a placeholder. Replace with your actual data fetching method
-      //     const fetchedPeers: Peer[] = await GetAllPeers();
-      //     setPeers(fetchedPeers);
-      //   } catch (error) {
-      //     console.error("Failed to fetch peers:", error);
-      //   }
-      // };
+      const fetchPeers = async () => {
+        try {
+          // This is a placeholder. Replace with your actual data fetching method
+          const fetchedPeers: Peer[] = await GetAllPeers();
+          setPeers(fetchedPeers);
+        } catch (error) {
+          console.error("Failed to fetch peers:", error);
+        }
+      };
 
-      // fetchPeers();
+      fetchPeers();
   } catch(err:any){
     console.log("err-", err);
   }
   }, []);
 
+  const handleAddPeer = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      await AddPeer(newPeer);
+      // Optionally clear the newPeer state here if needed
+      // Refresh the peers list
+      const updatedPeers = await GetAllPeers();
+      setPeers(updatedPeers);
+    } catch (error) {
+      console.error('Failed to add peer:', error);
+    }
+  };
+  
   const popScale = useMemo(
     () => scaleLinear().domain([0, maxValue]).range([0, 24]),
     [maxValue]
@@ -90,6 +113,46 @@ const PeersPage = () => {
 
   return (
     <div className="p-2 pb-0 block w-auto overflow-y-scroll">
+      <form onSubmit={handleAddPeer}>
+        <input
+          type="text"
+          value={newPeer.location}
+          onChange={(e) => setNewPeer({ ...newPeer, location: e.target.value })}
+          placeholder="Location"
+        />
+        <input
+          type="text"
+          value={newPeer.latency}
+          onChange={(e) => setNewPeer({ ...newPeer, latency: e.target.value })}
+          placeholder="Latency"
+        />
+        <input
+          type="text"
+          value={newPeer.peerID}
+          onChange={(e) => setNewPeer({ ...newPeer, peerID: e.target.value })}
+          placeholder="PeerID"
+        />
+        <input
+          type="text"
+          value={newPeer.connection}
+          onChange={(e) => setNewPeer({ ...newPeer, connection: e.target.value })}
+          placeholder="Connection"
+        />
+         <input
+          type="text"
+          value={newPeer.openStreams}
+          onChange={(e) => setNewPeer({ ...newPeer, openStreams: e.target.value })}
+          placeholder="OpenStreams"
+        />
+         <input
+          type="text"
+          value={newPeer.flagUrl}
+          onChange={(e) => setNewPeer({ ...newPeer, flagUrl: e.target.value })}
+          placeholder="flagUrl"
+        />
+        {/* Add input fields for other peer attributes */}
+        <button type="submit">Add Peer</button>
+      </form>
       <div id="peers-page" className="container p-8 pt-0 pl-12 justify-self-center">
         <AddConnection/>
         <RadialGradient />

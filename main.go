@@ -17,7 +17,7 @@ func main() {
 	// Create an instance of the app structure
 	app := NewApp()
 	myBackend := &backend.Backend{}
-
+	myPeer := backend.NewPeerStorage()
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "OrcaNetPeerNode",
@@ -30,6 +30,7 @@ func main() {
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			myBackend,
+			myPeer,
 		},
 	})
 

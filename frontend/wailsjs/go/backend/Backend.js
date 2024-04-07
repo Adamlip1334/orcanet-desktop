@@ -6,10 +6,6 @@ export function GetActivities() {
   return window['go']['backend']['Backend']['GetActivities']();
 }
 
-export function NewPeerStorage() {
-  return window['go']['backend']['Backend']['NewPeerStorage']();
-}
-
 export function RemoveActivity(arg1) {
   return window['go']['backend']['Backend']['RemoveActivity'](arg1);
 }

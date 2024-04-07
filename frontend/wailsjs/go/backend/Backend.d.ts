@@ -4,8 +4,6 @@ import {backend} from '../models';
 
 export function GetActivities():Promise<Array<backend.Activity>>;
 
-export function NewPeerStorage():Promise<backend.PeerStorage>;
-
 export function RemoveActivity(arg1:number):Promise<void>;
 
 export function SetActivity(arg1:backend.Activity):Promise<void>;

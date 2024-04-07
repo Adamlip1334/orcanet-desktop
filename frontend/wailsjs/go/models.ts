@@ -24,6 +24,28 @@ export namespace backend {
 	        this.peers = source["peers"];
 	    }
 	}
+	export class PeerInfo {
+	    location: string;
+	    latency: string;
+	    peerID: string;
+	    connection: string;
+	    openStreams: string;
+	    flagUrl: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new PeerInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.location = source["location"];
+	        this.latency = source["latency"];
+	        this.peerID = source["peerID"];
+	        this.connection = source["connection"];
+	        this.openStreams = source["openStreams"];
+	        this.flagUrl = source["flagUrl"];
+	    }
+	}
 
 }
 
