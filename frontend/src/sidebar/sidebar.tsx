@@ -14,9 +14,9 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
-import orcanetLogo from "./../assets/images/orcanetPNG.png";
+import orcanetLogo from "./../assets/images/OrcaNet-Dark.png";
 import React from "react";
-import SidebarItem from "./Sidebaritem";
+import SidebarItem from "./sidebaritem";
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(true);
@@ -35,7 +35,7 @@ const Sidebar = () => {
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}
-            className="p-1.5 rounded-lg hover:bg-accent bg-white border border-gray-300"
+            className="p-1.5 rounded-lg  hover:bg-accent bg-black"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
           </button>
@@ -56,6 +56,22 @@ const Sidebar = () => {
                 icon={<Package />}
                 text="Store"
                 active={isActive("/store")}
+                alert={false}
+              />
+            </Link>
+            <Link to="/stats">
+              <SidebarItem
+                icon={<Package />}
+                text="Stats"
+                active={isActive("/stats")}
+                alert={false}
+              />
+            </Link>
+            <Link to="/peer">
+              <SidebarItem
+                icon={<Package />}
+                text="Peer"
+                active={isActive("/peer")}
                 alert={false}
               />
             </Link>

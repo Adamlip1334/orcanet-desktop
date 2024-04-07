@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { useContext } from "react";
-import { SidebarContext } from "./Sidebar";
+import { SidebarContext } from "./sidebar"
 
 type SidebarItemProps = {
   icon: JSX.Element;

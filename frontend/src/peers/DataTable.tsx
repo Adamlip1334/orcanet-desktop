@@ -58,23 +58,19 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  React.useEffect(() => {
-    table.setPageSize(3);
-  }, []);
-
   return (
     <div>
-      {/* <div className="flex">
+      <div className="items-center py-4 flex">
         <Input
-          placeholder="Filter regions..."
-          value={(table.getColumn("region")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter peers..."
+          value={(table.getColumn("location")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("region")?.setFilterValue(event.target.value)
+            table.getColumn("location")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm inline"
+          className="w-5/6 inline"
         />
-        <Button type="submit">Filter</Button>
-      </div> */}
+        <Button type="submit" className="ml-3">Filter</Button>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -129,10 +125,7 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => {
-            console.log(table.getState());
-            table.previousPage();
-          }}
+          onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
           Previous
@@ -140,11 +133,7 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => {
-            console.log(table.getState());
-            table.nextPage();
-            console.log(table.getState());
-          }}
+          onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
           Next

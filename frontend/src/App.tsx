@@ -3,7 +3,9 @@ import StorePage from "./store/StorePage";
 import MarketPage from "./market/MarketPage";
 import WalletPage from "./wallet/WalletPage";
 import SettingsPage from "./settings/SettingsPage";
-import Sidebar from "./sidebar/Sidebar";
+import Sidebar from "./sidebar/sidebar";
+import StatsPage from "./StatsPage/StatsPage";
+import PeersPage from "./peers/PeersPage";
 
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -19,6 +21,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/store" element={<StorePage />} />
+            <Route path="/peer" element={<PeersPage />} />
+            <Route path="/stats" element={<StatsPage />} />
             <Route path="/market" element={<MarketPage />} />
             <Route path="/wallet" element={<WalletPage />} />
             <Route path="/settings" element={<SettingsPage />} />
@@ -34,6 +38,8 @@ export default App;
 const pageMap: { label: string; path: string }[] = [
   { label: "Home", path: "/" },
   { label: "Store", path: "/store" },
+  { label: "Stats", path: "/stas" },
+  { label: "Peers", path: "/peer"},
   { label: "Market", path: "/market" },
   { label: "Wallet", path: "/wallet" },
   { label: "Settings", path: "/settings" },
