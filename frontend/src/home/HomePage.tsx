@@ -37,19 +37,25 @@ const HomePage = () => {
   const fetchActivities = async () => {
     try {
       const result = await GetActivities();
-      setActivities(result);
+      if (Array.isArray(result)) { // Ensure result is an array
+        setActivities(result);
+      } else {
+        console.error("Fetched activities is not an array:", result);
+        setActivities([]); // Set to empty array if result is not an array
+      }
     } catch (error) {
       console.error("Failed to fetch activities:", error);
+      setActivities([]); // Ensure activities is set to an empty array on error
     }
   };
+  
 
   useEffect(() => {
     fetchActivities();
   }, []);
 
-  const isAnyActivitySelected = activities.some(
-    (activity) => activity.isSelected
-  );
+  const isAnyActivitySelected = activities && activities.some(activity => activity.isSelected);
+
   const totalFiles = activities.length;
 
   const networkStatus = "Healthy";

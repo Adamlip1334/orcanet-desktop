@@ -10,32 +10,43 @@ type Activity struct {
 	Peers        int    `json:"peers"`
 }
 
-var activities = []Activity{}
-
+// GetActivities is now safe for concurrent use
 func (b *Backend) GetActivities() ([]Activity, error) {
-	return activities, nil
+	b.mutex.RLock()         // Lock for reading
+	defer b.mutex.RUnlock() // Ensure the lock is released
+	return b.activities, nil
 }
 
+// SetActivity is now safe for concurrent use
 func (b *Backend) SetActivity(activity Activity) error {
-	activities = append(activities, activity)
+	b.mutex.Lock()         // Lock for writing
+	defer b.mutex.Unlock() // Ensure the lock is released
+	b.activities = append(b.activities, activity)
 	return nil
 }
 
+// RemoveActivity is now safe for concurrent use
 func (b *Backend) RemoveActivity(id int) error {
+	b.mutex.Lock()         // Lock for writing
+	defer b.mutex.Unlock() // Ensure the lock is released
 
-	for i, activity := range activities {
+	for i, activity := range b.activities {
 		if activity.ID == id {
-			activities = append(activities[:i], activities[i+1:]...)
+			b.activities = append(b.activities[:i], b.activities[i+1:]...)
 			return nil
 		}
 	}
 	return nil
 }
 
+// UpdateActivityName is now safe for concurrent use
 func (b *Backend) UpdateActivityName(id int, name string) error {
-	for i, activity := range activities {
+	b.mutex.Lock()         // Lock for writing
+	defer b.mutex.Unlock() // Ensure the lock is released
+
+	for i, activity := range b.activities {
 		if activity.ID == id {
-			activities[i].Name = name
+			b.activities[i].Name = name
 			return nil
 		}
 	}
